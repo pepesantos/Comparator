@@ -1,0 +1,47 @@
+/*
+    cd C:\Apache2.2\htdocs\dev_tools
+    php5.6_set.bat
+    cd C:\Apache2.2\htdocs\iac\inc\util\test\unit
+    C:\Apache2.2\htdocs\dev_tools\vendor\bin\phpunit
+
+
+   C:\Apache2.2\htdocs\dev_tools\vendor\bin\phpunit --coverage-html ../../drep/cov --coverage-crap4j ../../drep/crap4j.xml --coverage-xml ../../drep/phpunitcode.xml --coverage-clover ../../drep/clover.xml --report-useless-tests --strict-coverage --testdox --testdox-html ../../drep/testdox.html
+
+
+   C:\Apache2.2\htdocs\dev_tools\vendor\bin\phpunit --log-junit ../../drep/logjunit.xml --coverage-html ../../drep/cov --coverage-crap4j ../../drep/crap4j.xml --coverage-xml ../../drep/phpunitcode.xml --coverage-clover ../../drep/clover.xml --report-useless-tests --strict-coverage --testdox
+
+
+
+cd C:\Apache2.2\htdocs\iac\inc\util
+mkdir docs
+C:\Apache2.2\htdocs\dev_tools\vendor\bin\phpdoc -f ./IacComparator.php -t ./docs/ --title IacComparator --template="old-ocean"
+
+
+camion 2,200 ida y vuelta pp, 4,400 10 horas omnibus mexico plus
+avion 8000 mas impuestos ida y vuelta pero a 18meses
+
+salir vie 9, regresar martes 13
+ida 12:10pm llegar 14:00
+regreso 19:30pm 21:12
+
+1885
+834
+
+
+ DOC
+
+    C:\Apache2.2\htdocs\dev_tools\vendor\bin\phpunit
+
+
+
+
+ *
+ *
+ * --log-junit results/phpunit/junit.xml
+ *
+ * https://github.com/marmelab/phpunit-d3-report  online bubbles
+ * https://github.com/VisualPHPUnit/VisualPHPUnit
+ *
+
+    https://github.com/johnkary/phpunit-speedtrap/blob/master/src/JohnKary/PHPUnit/Listener/SpeedTrapListener.php
+ */

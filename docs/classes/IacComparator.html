@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>IacComparator</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">IacComparator</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-989290028"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-989290028" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/IacComparator.html">IacComparator</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/default.html">\</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\</small>IacComparator</h1>
+                    <p><em>IacComparator
+Compares 2 variables</em></p>
+                    <ul>
+<li>strings: case/accent [in]sensitive, natural or computer ordering
+<ul>
+<li>numbers; within $decimals: eq ==, gt &gt;, ge &gt;=, lt &lt;, le &lt;=</li>
+<li>Note: number vs string treats both as string</li>
+<li>arrays: same keys, same key=&gt;values, same key=&gt;values in same position</li>
+<li>object: ==</li>
+<li>Multithreading each thread should use its own instance</li>
+</ul></li>
+</ul>
+                    
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/IacComparator.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_decimals_set" class="">decimals_set()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_useBcMath" class="">useBcMath()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_eq" class="">eq()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_unaccent" class="">unaccent()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_cmp" class="">cmp()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_bccomp" class="">bccomp()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_strcmp" class="">strcmp()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_gt" class="">gt()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_ge" class="">ge()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_lt" class="">lt()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_le" class="">le()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_eqArray" class="">eqArray()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_eqArrayIdentical" class="">eqArrayIdentical()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_arrays_have_same_keys" class="">arrays_have_same_keys()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/IacComparator.html#property_naturalSortingStrings" class="">$naturalSortingStrings</a><br />
+                                                                    <a href="../classes/IacComparator.html#property_caseSesitiveStrings" class="">$caseSesitiveStrings</a><br />
+                                                                    <a href="../classes/IacComparator.html#property_accentSesitiveStrings" class="">$accentSesitiveStrings</a><br />
+                                                                    <a href="../classes/IacComparator.html#property_arraySamePosition" class="">$arraySamePosition</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/IacComparator.html#method_unaccentSetUp" class="">unaccentSetUp()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_arrays_identical_keys" class="">arrays_identical_keys()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_arrayEqual" class="">arrayEqual()</a><br />
+                                                                    <a href="../classes/IacComparator.html#method_arrayIdentical" class="">arrayIdentical()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/IacComparator.html#property_decimals" class="">$decimals</a><br />
+                                                                    <a href="../classes/IacComparator.html#property_decimals_max" class="">$decimals_max</a><br />
+                                                                    <a href="../classes/IacComparator.html#property_haveBcMath" class="">$haveBcMath</a><br />
+                                                                    <a href="../classes/IacComparator.html#property_accented_chars" class="">$accented_chars</a><br />
+                                                                    <a href="../classes/IacComparator.html#property_unaccented_chars" class="">$unaccented_chars</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/IacComparator.html"><div class="path-wrapper">IacComparator.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">iac\util</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\IacComparator</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                author
+                            </th>
+                            <td>
+                                                                    <p>Raul Jose Santos Beranrd</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                copyright
+                            </th>
+                            <td>
+                                                                    <p>2015</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                version
+                            </th>
+                            <td>
+                                                                    
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_naturalSortingStrings" name="property_naturalSortingStrings" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$naturalSortingStrings</h3>
+                <pre class="signature">$naturalSortingStrings : boolean</pre>
+                <p><em>$naturalSortingStrings
+Compare using natural order</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; true, default, comparse using strnatcmp, false, compares using stcmp                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_caseSesitiveStrings" name="property_caseSesitiveStrings" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$caseSesitiveStrings</h3>
+                <pre class="signature">$caseSesitiveStrings : boolean</pre>
+                <p><em>$caseSesitiveStrings
+Compare case Sesitive or case sensitive, default false</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; true comparse using case Sesitive, false, default, case sensitive                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_accentSesitiveStrings" name="property_accentSesitiveStrings" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$accentSesitiveStrings</h3>
+                <pre class="signature">$accentSesitiveStrings : boolean</pre>
+                <p><em>$accentSesitiveStrings
+Compare accent Sesitive or accent sensitive, default false</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; true comparse using accent Sesitive, false, default, accent sensitive                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_arraySamePosition" name="property_arraySamePosition" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$arraySamePosition</h3>
+                <pre class="signature">$arraySamePosition : boolean</pre>
+                <p><em>$arraySamePosition
+Compare case Sesitive or case sensitive, default false</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; true order of keys in the array counts, false, default, key must exists in any order                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_decimals" name="property_decimals" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$decimals</h3>
+                <pre class="signature">$decimals : integer</pre>
+                <p><em>$decimals
+Number of decimals to use in numeric comparisons, default 2</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; default 2                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">IacComparator::decimalsSetup() Setter for number of decimals</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_decimals_max" name="property_decimals_max" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$decimals_max</h3>
+                <pre class="signature">$decimals_max : float</pre>
+                <p><em>$decimals_max
+Decimals</em></p>
+                
+
+                                <h4>Type</h4>
+                float
+                &mdash; default 0.99                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">IacComparator::decimalsSetup(), Setter for number of decimals</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_haveBcMath" name="property_haveBcMath" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$haveBcMath</h3>
+                <pre class="signature">$haveBcMath : boolean</pre>
+                <p><em>$haveBcMath
+bcMath installed?</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; haveBcMath true bcMath is installed, else false                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_accented_chars" name="property_accented_chars" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$accented_chars</h3>
+                <pre class="signature">$accented_chars : array</pre>
+                <p><em>$accented_chars
+accented chars to substitute</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                &mdash; accented chars to substitute                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/IacComparator.html#method_unaccent"><span class="namespace-wrapper">IacComparator::unaccent()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_unaccented_chars" name="property_unaccented_chars" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$unaccented_chars</h3>
+                <pre class="signature">$unaccented_chars : array</pre>
+                <p><em>$unaccented_chars
+accented chars to substitute with</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                &mdash; accented chars to substitute with                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/IacComparator.html#method_unaccent"><span class="namespace-wrapper">IacComparator::unaccent()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(integer  <span class="argument">$decimals = 2</span>, boolean  <span class="argument">$caseSesitiveStrings = false</span>, boolean  <span class="argument">$accentSesitiveStrings = false</span>, boolean  <span class="argument">$naturalSortingStrings = true</span>, boolean  <span class="argument">$arraySamePosition = false</span>) : void</pre>
+                <p><em>IacComparator::__construct()</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$decimals </td>
+                                <td><p>number of decimals to consider when comparing numbers, default 2</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$caseSesitiveStrings </td>
+                                <td><p>compare strings considering case, default false</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$accentSesitiveStrings </td>
+                                <td><p>compare strings considering accents, default false</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$naturalSortingStrings </td>
+                                <td><p>compare strings considering natural order strnatcmp, default true</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$arraySamePosition </td>
+                                <td><p>when comparing arrays consider key position true, or just key exists false. default false</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/IacComparator.html#property_caseSesitiveStrings"><span class="namespace-wrapper">IacComparator::$caseSesitiveStrings</span></a></dd>
+                                            <dd><a href="../classes/IacComparator.html#property_accentSesitiveStrings"><span class="namespace-wrapper">IacComparator::$accentSesitiveStrings</span></a></dd>
+                                            <dd><a href="../classes/IacComparator.html#property_naturalSortingStrings"><span class="namespace-wrapper">IacComparator::$naturalSortingStrings</span></a></dd>
+                                            <dd><a href="../classes/IacComparator.html#property_arraySamePosition"><span class="namespace-wrapper">IacComparator::$arraySamePosition</span></a></dd>
+                                            <dd><a href="../classes/IacComparator.html#property_haveBcMath"><span class="namespace-wrapper">IacComparator::$haveBcMath</span></a></dd>
+                                                                                                <dt>Uses</dt>
+                                                                <dd>IacComparator::decimals_set()</dd>
+                                            <dd>IacComparator::unaccentSetUp()</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_decimals_set" name="method_decimals_set" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">decimals_set()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">decimals_set(integer  <span class="argument">$decimals</span>) : void</pre>
+                <p><em>IacComparator::decimals_set()
+Decimals to use in numeric comparisons setter</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$decimals </td>
+                                <td><p>number of decimals to use in numeric comparisons</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::$decimals</dd>
+                                            <dd>IacComparator::$decimals_max</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_useBcMath" name="method_useBcMath" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">useBcMath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">useBcMath(boolean  <span class="argument">$use</span>) : void</pre>
+                <p><em>IacComparator::useBcMath()
+(Un)forces use of bccomp</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$use </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/IacComparator.html#property_haveBcMath"><span class="namespace-wrapper">IacComparator::$haveBcMath</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_eq" name="method_eq" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">eq()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">eq(mixed  <span class="argument">$obj1</span>, mixed  <span class="argument">$obj2</span>) : boolean</pre>
+                <p><em>IacComparator::eq()
+Compares 2 variables, arrays must have same keys and values in any order.</em></p>
+                <ul>
+<li>numbers uses considers $decimals
+<ul>
+<li>strings use $caseSesitiveStrings, $accentSesitiveStrings and $naturalSortingStrings</li>
+<li>arrays use  $arraySamePosition</li>
+</ul></li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$obj1 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$obj2 </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true variables are equal, false are different</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/IacComparator.html#property_caseSesitiveStrings"><span class="namespace-wrapper">IacComparator::$caseSesitiveStrings</span></a></dd>
+                                            <dd><a href="../classes/IacComparator.html#property_accentSesitiveStrings"><span class="namespace-wrapper">IacComparator::$accentSesitiveStrings</span></a></dd>
+                                            <dd><a href="../classes/IacComparator.html#property_naturalSortingStrings"><span class="namespace-wrapper">IacComparator::$naturalSortingStrings</span></a></dd>
+                                            <dd><a href="../classes/IacComparator.html#property_arraySamePosition"><span class="namespace-wrapper">IacComparator::$arraySamePosition</span></a></dd>
+                                                                                                <dt>Uses</dt>
+                                                                <dd>IacComparator::$decimals_max</dd>
+                                            <dd>IacComparator::arrayIdentical()</dd>
+                                            <dd>IacComparator::arrayEqual()</dd>
+                                            <dd>IacComparator::bccomp()</dd>
+                                            <dd>IacComparator::strcmp()</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_unaccent" name="method_unaccent" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">unaccent()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">unaccent(string  <span class="argument">$str</span>, boolean  <span class="argument">$utf8 = true</span>, boolean  <span class="argument">$test_else = true</span>) : string</pre>
+                <p><em>unaccent()
+Remove diatrics from letters</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$utf8 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$test_else </td>
+                                <td><p>on true force else for testing, internal</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>with without accents</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper"></span></a></dd>
+                                                                                                <dt>Uses</dt>
+                                                                <dd>IacComparator::$accented_chars</dd>
+                                            <dd>IacComparator::$unaccented_chars</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_cmp" name="method_cmp" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">cmp()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">cmp(mixed  <span class="argument">$numStr1</span>, mixed  <span class="argument">$numStr2</span>) : integer</pre>
+                <p><em>IacComparator::cmp()
+Returns -1: numStr1 &lt; numStr2, 0: numStr1 == numStr2, 1: numStr1 &gt; numStr2, considering:</em></p>
+                <ul>
+<li>If both parameters are numeric compares considering $decimals</li>
+<li>If either parameter is string uses applies case/accent snesitive settings</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$numStr1 </td>
+                                <td><p>string or number</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$numStr2 </td>
+                                <td><p>string or number</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>&lt; 0: numStr1 &lt; numStr2, 0: numStr1 == numStr2, &gt;0: numStr1 &gt; numStr2</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::bccomp()</dd>
+                                            <dd>IacComparator::strcmp()</dd>
+                                            <dd>IacComparator::$decimals</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_bccomp" name="method_bccomp" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">bccomp()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">bccomp(float  <span class="argument">$num1</span>, float  <span class="argument">$num2</span>) : \&lt;</pre>
+                <p><em>IacComparator::bccomp()
+bccomp call protecting -0 , using $this-&gt;decmials as scale</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>float</td>
+                                <td>$num1 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>float</td>
+                                <td>$num2 </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    \<
+                                            &mdash; <p>1 $num1 &lt; $num2, 0 $num1 == $num2, 1 $num1 &gt; $num2</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">IacComparator::decimals_set</span></a></dd>
+                                                                                                <dt>Uses</dt>
+                                                                <dd>IacComparator::$decimals</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_strcmp" name="method_strcmp" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">strcmp()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">strcmp(string  <span class="argument">$str1</span>, string  <span class="argument">$str2</span>) : integer</pre>
+                <p><em>IacComparator::strcmp()
+strnatcmp function considering case/accent [in]sensitive and natural order or normal order</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$str1 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$str2 </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>&lt; 0: str1 &lt; str2, 0: str1 == str2, &gt;0: str1 &gt; str2</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::$caseSesitiveStrings</dd>
+                                            <dd>IacComparator::$accentSesitiveStrings</dd>
+                                            <dd>IacComparator::$naturalSortingStrings</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_gt" name="method_gt" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">gt()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">gt(mixed  <span class="argument">$numStr1</span>, mixed  <span class="argument">$numStr2</span>) : boolean</pre>
+                <p><em>IacComparator::gt()
+Greater than</em></p>
+                <ul>
+<li>If both parameters are numbers considers $decimals</li>
+<li>If either parameter is string uses $strcmp</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$numStr1 </td>
+                                <td><p>number or string to compare, left hand side</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$numStr2 </td>
+                                <td><p>number or string to compare, right hand side</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true $numStr1 &gt; $numStr2, false otherwise</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::cmp()</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_ge" name="method_ge" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">ge()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">ge(mixed  <span class="argument">$numStr1</span>, mixed  <span class="argument">$numStr2</span>) : boolean</pre>
+                <p><em>IacComparator::ge()
+Greater or equal than
+If both parameters are numbers considers $decimals
+If either parameter is string uses $strcmp</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$numStr1 </td>
+                                <td><p>number or string to compare, left hand side</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$numStr2 </td>
+                                <td><p>number or string to compare, right hand side</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true $numStr1 &gt;= $numStr2, false otherwise</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::cmp()</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_lt" name="method_lt" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">lt()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">lt(mixed  <span class="argument">$numStr1</span>, mixed  <span class="argument">$numStr2</span>) : boolean</pre>
+                <p><em>IacComparator::lt()
+Less than
+If both parameters are numbers considers $decimals
+If either parameter is string uses $strcmp</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$numStr1 </td>
+                                <td><p>number or string to compare, left hand side</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$numStr2 </td>
+                                <td><p>number or string to compare, right hand side</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true $numStr1 &lt; $numStr2, false otherwise</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::cmp()</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_le" name="method_le" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">le()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">le(mixed  <span class="argument">$numStr1</span>, mixed  <span class="argument">$numStr2</span>) : boolean</pre>
+                <p><em>IacComparator::le()
+Less or equal than
+If both parameters are numbers considers $decimals
+If either parameter is string uses $strcmp</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$numStr1 </td>
+                                <td><p>number or string to compare, left hand side</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$numStr2 </td>
+                                <td><p>number or string to compare, right hand side</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true $numStr1 &lt;= $numStr2, false otherwise</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::cmp()</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_eqArray" name="method_eqArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">eqArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">eqArray(array  <span class="argument">$array1</span>, array  <span class="argument">$array2</span>) : boolean</pre>
+                <p><em>IacComparator::eqArray()
+Compares 2 arrays so the have the same key=&gt;value, keys may be in any position in the arrays</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array1 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array2 </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true equal arrays same key=value (keys in any position), false otherwise</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::arrayEqual()</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_eqArrayIdentical" name="method_eqArrayIdentical" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">eqArrayIdentical()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">eqArrayIdentical(array  <span class="argument">$array1</span>, array  <span class="argument">$array2</span>) : boolean</pre>
+                <p><em>IacComparator::eqArrayIdentical()
+Compares 2 arrays so the have the same key=&gt;value, keys in the same position</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array1 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array2 </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true equal arrays same key=value (keys in same position), false otherwise</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::arrayIdentical()</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_arrays_have_same_keys" name="method_arrays_have_same_keys" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">arrays_have_same_keys()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">arrays_have_same_keys(array  <span class="argument">$array1</span>, array  <span class="argument">$array2</span>, boolean  <span class="argument">$firstLevelOnly = false</span>) : boolean</pre>
+                <p><em>IacComparator::arrays_have_same_keys()
+Determine if 2 arrays have the same keys</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array1 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array2 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$firstLevelOnly </td>
+                                <td><p>true only first level, false recursevly</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true the have the same keys, false have different keys</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/IacComparator.html#property_arraySamePosition"><span class="namespace-wrapper">IacComparator::$arraySamePosition</span></a></dd>
+                                                                                                <dt>Uses</dt>
+                                                                <dd>IacComparator::arrays_identical_keys()</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_unaccentSetUp" name="method_unaccentSetUp" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">unaccentSetUp()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">unaccentSetUp() : void</pre>
+                <p><em>IacComparator::unaccentSetUp()
+Sets up $unaccented_chars &amp; $accetnted_chars for substitution in unaccent, called by constructor</em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::$accented_chars</dd>
+                                            <dd>IacComparator::$unaccented_chars</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_arrays_identical_keys" name="method_arrays_identical_keys" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">arrays_identical_keys()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">arrays_identical_keys(array  <span class="argument">$array1</span>, array  <span class="argument">$array2</span>, boolean  <span class="argument">$firstLevelOnly = false</span>) : boolean</pre>
+                <p><em>IacComparator::arrays_identical_keys()
+Determine if 2 arrays have the same keys, in the same position</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array1 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array2 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$firstLevelOnly </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true have same keys in same position, false otherwise</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_arrayEqual" name="method_arrayEqual" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">arrayEqual()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">arrayEqual(array  <span class="argument">$array1</span>, array  <span class="argument">$array2</span>) : boolean</pre>
+                <p><em>IacComparator::arrayEqual()
+Determine if arrays are equal
+ arrays must have same keys and values in any order</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array1 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array2 </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true if equal keys in any order, false if different</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::eq()</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_arrayIdentical" name="method_arrayIdentical" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">arrayIdentical()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">arrayIdentical(array  <span class="argument">$array1</span>, array  <span class="argument">$array2</span>) : boolean</pre>
+                <p><em>IacComparator::arrayIdentical()
+Determine if arrays are identical
+ arrays must have same keys and values in exactly the same order</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array1 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array2 </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true if equal and keys in the same position, false if different</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                                            <dt>Uses</dt>
+                                                                <dd>IacComparator::eq()</dd>
+                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">IacComparator.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/IacComparator.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on September 22nd, 2015 at 15:11.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+    timeoutForSmallTests="12"
+    mapTestClassNameToCoveredClassName="true"
+    convertWarningsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertErrorsToExceptions="true"
+    verbose="true"
+    colors="false"
+    bootstrap="bootstrap.php"
+    backupGlobals="false"
+>
+
+
+    <php>
+        <ini value="-1" name="error_reporting"/>
+        <ini value="1G" name="memory_limit"/>
+    </php>
+
+
+    <testsuite name="all">
+        <directory suffix="Test.php">./</directory>
+    </testsuite>
+</phpunit>

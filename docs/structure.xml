@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project title="IacComparator" version="2.8.5">
+  <partials/>
+  <file path="iacComparator.php" generated-path="iacComparator.html" hash="60838eae04db5d6b56fd86e91b4bbadb" package="iac\util">
+    <docblock line="0">
+      <description>IacComparator
+ Compare 2 variables</description>
+      <long-description></long-description>
+      <tag name="summary" line="0" description="Compare 2 variables&#10; strings: case/accent [in]sensitive, natural or computer ordering.&#10; numbers; within $decimals: eq ==, gt &gt;, ge &gt;=, lt &lt;, le &lt;=&#10;   Note: number vs string treats both as string&#10; arrays: same keys, same key=&gt;values, same key=&gt;values in same position&#10; object: =="/>
+      <tag name="package" line="0" description="iac\util"/>
+      <tag name="author" line="0" description="Raul Jose Santos Beranrd"/>
+      <tag name="copyright" line="0" description="2015"/>
+      <tag name="version" line="0" description="1.0"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="" line="37" package="iac\util">
+      <extends/>
+      <name>IacComparator</name>
+      <full_name>\IacComparator</full_name>
+      <docblock line="37">
+        <description>IacComparator
+Compare 2 variables
+ strings: case/accent [in]sensitive, natural or computer ordering.</description>
+        <long-description>numbers; within $decimals: eq ==, gt &gt;, ge &gt;=, lt &lt;, le &lt;=
+   Note: number vs string treats both as string
+ arrays: same keys, same key=&gt;values, same key=&gt;values in same position
+ object: ==
+
+Multithreading each thread should use its own instance</long-description>
+        <tag name="package" line="37" description="iac\util"/>
+        <tag name="author" line="37" description="Raul Jose Santos Beranrd"/>
+        <tag name="copyright" line="37" description="2015"/>
+        <tag name="version" line="37" description="1.0"/>
+      </docblock>
+      <property static="false" visibility="protected" namespace="" line="47" package="iac\util">
+        <name>$decimals</name>
+        <full_name>\IacComparator::decimals</full_name>
+        <default></default>
+        <docblock line="47">
+          <description>$decimals
+Number of decimals to use in numeric comparisons, default 2</description>
+          <long-description></long-description>
+          <tag name="var" line="47" description="&lt;p&gt;default 2&lt;/p&gt;" type="integer" variable="$decimals">
+            <type>integer</type>
+          </tag>
+          <tag name="see" line="47" description="" link="\decimalsSetup()"/>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="" line="57" package="iac\util">
+        <name>$decimals_max</name>
+        <full_name>\IacComparator::decimals_max</full_name>
+        <default></default>
+        <docblock line="57">
+          <description>$decimals_max
+Decimals</description>
+          <long-description></long-description>
+          <tag name="var" line="57" description="&lt;p&gt;default 0.99&lt;/p&gt;" type="float" variable="$decimals">
+            <type>float</type>
+          </tag>
+          <tag name="see" line="57" description="" link="\decimalsSetup()"/>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="" line="66" package="iac\util">
+        <name>$haveBcMath</name>
+        <full_name>\IacComparator::haveBcMath</full_name>
+        <default></default>
+        <docblock line="66">
+          <description>$haveBcMath
+bcMath installed?</description>
+          <long-description></long-description>
+          <tag name="var" line="66" description="&lt;p&gt;haveBcMath true bcMath is installed, else false&lt;/p&gt;" type="boolean" variable="">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="" line="74" package="iac\util">
+        <name>$naturalSortingStrings</name>
+        <full_name>\IacComparator::naturalSortingStrings</full_name>
+        <default></default>
+        <docblock line="74">
+          <description>$naturalSortingStrings
+Compare using natural order</description>
+          <long-description></long-description>
+          <tag name="var" line="74" description="&lt;p&gt;true, default, comparse using strnatcmp, false, compares using stcmp&lt;/p&gt;" type="boolean" variable="$naturalSortingStrings">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="" line="82" package="iac\util">
+        <name>$caseSesitiveStrings</name>
+        <full_name>\IacComparator::caseSesitiveStrings</full_name>
+        <default></default>
+        <docblock line="82">
+          <description>$caseSesitiveStrings
+Compare case Sesitive or case sensitive, default false</description>
+          <long-description></long-description>
+          <tag name="var" line="82" description="&lt;p&gt;true comparse using case Sesitive, false, default, case sensitive&lt;/p&gt;" type="boolean" variable="$caseSesitiveStrings">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="" line="90" package="iac\util">
+        <name>$accentSesitiveStrings</name>
+        <full_name>\IacComparator::accentSesitiveStrings</full_name>
+        <default></default>
+        <docblock line="90">
+          <description>$accentSesitiveStrings
+Compare accent Sesitive or accent sensitive, default false</description>
+          <long-description></long-description>
+          <tag name="var" line="90" description="&lt;p&gt;true comparse using accent Sesitive, false, default, accent sensitive&lt;/p&gt;" type="boolean" variable="$accentSesitiveStrings">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="" line="100" package="iac\util">
+        <name>$accented_chars</name>
+        <full_name>\IacComparator::accented_chars</full_name>
+        <default></default>
+        <docblock line="100">
+          <description>$accented_chars
+accented chars to substitute</description>
+          <long-description></long-description>
+          <tag name="var" line="100" description="&lt;p&gt;accented chars to substitute&lt;/p&gt;" type="array" variable="$accented_chars">
+            <type>array</type>
+          </tag>
+          <tag name="see" line="100" description="" link="\IacComparator::unaccent()"/>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="" line="110" package="iac\util">
+        <name>$unaccented_chars</name>
+        <full_name>\IacComparator::unaccented_chars</full_name>
+        <default></default>
+        <docblock line="110">
+          <description>$unaccented_chars
+accented chars to substitute with</description>
+          <long-description></long-description>
+          <tag name="var" line="110" description="&lt;p&gt;accented chars to substitute with&lt;/p&gt;" type="array" variable="$unaccented_chars">
+            <type>array</type>
+          </tag>
+          <tag name="see" line="110" description="" link="\IacComparator::unaccent()"/>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="" line="118" package="iac\util">
+        <name>$arraySamePosition</name>
+        <full_name>\IacComparator::arraySamePosition</full_name>
+        <default>false</default>
+        <docblock line="118">
+          <description>$arraySamePosition
+Compare case Sesitive or case sensitive, default false</description>
+          <long-description></long-description>
+          <tag name="var" line="118" description="&lt;p&gt;true order of keys in the array counts, false, default, key must exists in any order&lt;/p&gt;" type="boolean" variable="$arraySamePosition">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="130" package="iac\util">
+        <name>__construct</name>
+        <full_name>\IacComparator::__construct()</full_name>
+        <docblock line="130">
+          <description>IacComparator::__construct()</description>
+          <long-description></long-description>
+          <tag name="param" line="130" description="&lt;p&gt;number of decimals to consider when comparing numbers, default 2&lt;/p&gt;" type="integer" variable="$decimals">
+            <type>integer</type>
+          </tag>
+          <tag name="param" line="130" description="&lt;p&gt;compare strings considering case, default false&lt;/p&gt;" type="boolean" variable="$caseSesitiveStrings">
+            <type>boolean</type>
+          </tag>
+          <tag name="param" line="130" description="&lt;p&gt;compare strings considering accents, default false&lt;/p&gt;" type="boolean" variable="$accentSesitiveStrings">
+            <type>boolean</type>
+          </tag>
+          <tag name="param" line="130" description="&lt;p&gt;compare strings considering natural order strnatcmp, default true&lt;/p&gt;" type="boolean" variable="$naturalSortingStrings">
+            <type>boolean</type>
+          </tag>
+          <tag name="param" line="130" description="&lt;p&gt;when comparing arrays consider key position true, or just key exists false. default false&lt;/p&gt;" type="boolean" variable="$arraySamePosition">
+            <type>boolean</type>
+          </tag>
+          <tag name="return" line="130" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$decimals</name>
+          <default>2</default>
+          <type>integer</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$caseSesitiveStrings</name>
+          <default>false</default>
+          <type>boolean</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$accentSesitiveStrings</name>
+          <default>false</default>
+          <type>boolean</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$naturalSortingStrings</name>
+          <default>true</default>
+          <type>boolean</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$arraySamePosition</name>
+          <default>false</default>
+          <type>boolean</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="150" package="iac\util">
+        <name>decimals_set</name>
+        <full_name>\IacComparator::decimals_set()</full_name>
+        <docblock line="150">
+          <description>IacComparator::decimals_set()
+Decimals to use in numeric comparisons setter</description>
+          <long-description></long-description>
+          <tag name="param" line="150" description="&lt;p&gt;number of decimals to use in numeric comparisons&lt;/p&gt;" type="integer" variable="$decimals">
+            <type>integer</type>
+          </tag>
+          <tag name="return" line="150" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$decimals</name>
+          <default></default>
+          <type>integer</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="162" package="iac\util">
+        <name>useBcMath</name>
+        <full_name>\IacComparator::useBcMath()</full_name>
+        <docblock line="162">
+          <description>IacComparator::useBcMath()
+(Un)forces use of bccomp</description>
+          <long-description></long-description>
+          <tag name="param" line="162" description="" type="boolean" variable="$use">
+            <type>boolean</type>
+          </tag>
+          <tag name="return" line="162" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$use</name>
+          <default></default>
+          <type>boolean</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="182" package="iac\util">
+        <name>eq</name>
+        <full_name>\IacComparator::eq()</full_name>
+        <docblock line="182">
+          <description>IacComparator::eq()
+Compares 2 variables, arrays must have same keys and values in any order.</description>
+          <long-description>numbers uses considers $decimals
+ strings use $caseSesitiveStrings, $accentSesitiveStrings and $naturalSortingStrings
+ arrays use  $arraySamePosition</long-description>
+          <tag name="param" line="182" description="" type="mixed" variable="$obj1">
+            <type>mixed</type>
+          </tag>
+          <tag name="param" line="182" description="" type="mixed" variable="$obj2">
+            <type>mixed</type>
+          </tag>
+          <tag name="return" line="182" description="true variables are equal, false are different" type="boolean">
+            <type>boolean</type>
+          </tag>
+          <tag name="see" line="182" description="" link="\IacComparator::caseSesitiveStrings"/>
+          <tag name="see" line="182" description="" link="\IacComparator::accentSesitiveStrings"/>
+          <tag name="see" line="182" description="" link="\IacComparator::naturalSortingStrings"/>
+          <tag name="see" line="182" description="" link="\IacComparator::arraySamePosition"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$obj1</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$obj2</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="210" package="iac\util">
+        <name>unaccent</name>
+        <full_name>\IacComparator::unaccent()</full_name>
+        <docblock line="210">
+          <description>unaccent()</description>
+          <long-description></long-description>
+          <tag name="param" line="210" description="" type="string" variable="$str">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="210" description="" type="boolean" variable="$utf8">
+            <type>boolean</type>
+          </tag>
+          <tag name="param" line="210" description="&lt;p&gt;on true force else for testing, internal&lt;/p&gt;" type="boolean" variable="$test_else">
+            <type>boolean</type>
+          </tag>
+          <tag name="return" line="210" description="with without accents" type="string">
+            <type>string</type>
+          </tag>
+          <tag name="see" line="210" description="" link="http://www.evaisse.net/2008/php-translit-remove-accent-unaccent-21001"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$str</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$utf8</name>
+          <default>true</default>
+          <type>boolean</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$test_else</name>
+          <default>true</default>
+          <type>boolean</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="" line="252" package="iac\util">
+        <name>unaccentSetUp</name>
+        <full_name>\IacComparator::unaccentSetUp()</full_name>
+        <docblock line="252">
+          <description>IacComparator::unaccentSetUp()
+Sets up $unaccented_chars &amp; $accetnted_chars for substitution in unaccent, called by constructor</description>
+          <long-description></long-description>
+          <tag name="return" line="252" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="290" package="iac\util">
+        <name>cmp</name>
+        <full_name>\IacComparator::cmp()</full_name>
+        <docblock line="290">
+          <description>IacComparator::cmp()
+Returns -1: numStr1 &lt; numStr2, 0: numStr1 == numStr2, 1: numStr1 &gt; numStr2, considering:</description>
+          <long-description>If both parameters are numeric compares considering $decimals
+If either parameter is string uses applies case/accent snesitive settings</long-description>
+          <tag name="param" line="290" description="&lt;p&gt;string or number&lt;/p&gt;" type="mixed" variable="$numStr1">
+            <type>mixed</type>
+          </tag>
+          <tag name="param" line="290" description="&lt;p&gt;string or number&lt;/p&gt;" type="mixed" variable="$numStr2">
+            <type>mixed</type>
+          </tag>
+          <tag name="return" line="290" description="&lt; 0: numStr1 &lt; numStr2, 0: numStr1 == numStr2, &gt;0: numStr1 &gt; numStr2" type="integer">
+            <type>integer</type>
+          </tag>
+          <tag name="see" line="290" description="" link="\IacComparator::strcmp()"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$numStr1</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$numStr2</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="314" package="iac\util">
+        <name>bccomp</name>
+        <full_name>\IacComparator::bccomp()</full_name>
+        <docblock line="314">
+          <description>IacComparator::bccomp()
+bccomp call protecting -0 , using $this-&gt;decmials as scale</description>
+          <long-description></long-description>
+          <tag name="param" line="314" description="" type="float" variable="$num1">
+            <type>float</type>
+          </tag>
+          <tag name="param" line="314" description="" type="float" variable="$num2">
+            <type>float</type>
+          </tag>
+          <tag name="return" line="314" description="1 $num1 &lt; $num2, 0 $num1 == $num2, 1 $num1 &gt; $num2" type="\&lt;">
+            <type>\&lt;</type>
+          </tag>
+          <tag name="see" line="314" description="" link="\decimals_set"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$num1</name>
+          <default></default>
+          <type>float</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$num2</name>
+          <default></default>
+          <type>float</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="334" package="iac\util">
+        <name>strcmp</name>
+        <full_name>\IacComparator::strcmp()</full_name>
+        <docblock line="334">
+          <description>IacComparator::strcmp()
+strnatcmp function considering case/accent [in]sensitive and natural order or normal order</description>
+          <long-description></long-description>
+          <tag name="param" line="334" description="" type="string" variable="$str1">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="334" description="" type="string" variable="$str2">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="334" description="&lt; 0: str1 &lt; str2, 0: str1 == str2, &gt;0: str1 &gt; str2" type="integer">
+            <type>integer</type>
+          </tag>
+          <tag name="see" line="334" description="" link="\IacComparator::caseSesitiveStrings"/>
+          <tag name="see" line="334" description="" link="\IacComparator::accentSesitiveStrings"/>
+          <tag name="see" line="334" description="" link="\IacComparator::naturalSortingStrings"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$str1</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$str2</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="372" package="iac\util">
+        <name>gt</name>
+        <full_name>\IacComparator::gt()</full_name>
+        <docblock line="372">
+          <description>IacComparator::gt()
+Greater than
+If both parameters are numbers considers $decimals
+If either parameter is string uses $strcmp</description>
+          <long-description></long-description>
+          <tag name="param" line="372" description="&lt;p&gt;number or string to compare, left hand side&lt;/p&gt;" type="mixed" variable="$numStr1">
+            <type>mixed</type>
+          </tag>
+          <tag name="param" line="372" description="&lt;p&gt;number or string to compare, right hand side&lt;/p&gt;" type="mixed" variable="$numStr2">
+            <type>mixed</type>
+          </tag>
+          <tag name="return" line="372" description="true $numStr1 &gt; $numStr2, false otherwise" type="boolean">
+            <type>boolean</type>
+          </tag>
+          <tag name="see" line="372" description="" link="\IacComparator::strcmp()"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$numStr1</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$numStr2</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="389" package="iac\util">
+        <name>ge</name>
+        <full_name>\IacComparator::ge()</full_name>
+        <docblock line="389">
+          <description>IacComparator::ge()
+Greater or equal than
+If both parameters are numbers considers $decimals
+If either parameter is string uses $strcmp</description>
+          <long-description></long-description>
+          <tag name="param" line="389" description="&lt;p&gt;number or string to compare, left hand side&lt;/p&gt;" type="mixed" variable="$numStr1">
+            <type>mixed</type>
+          </tag>
+          <tag name="param" line="389" description="&lt;p&gt;number or string to compare, right hand side&lt;/p&gt;" type="mixed" variable="$numStr2">
+            <type>mixed</type>
+          </tag>
+          <tag name="return" line="389" description="true $numStr1 &gt;= $numStr2, false otherwise" type="boolean">
+            <type>boolean</type>
+          </tag>
+          <tag name="see" line="389" description="" link="\IacComparator::strcmp()"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$numStr1</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$numStr2</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="406" package="iac\util">
+        <name>lt</name>
+        <full_name>\IacComparator::lt()</full_name>
+        <docblock line="406">
+          <description>IacComparator::lt()
+Less than
+If both parameters are numbers considers $decimals
+If either parameter is string uses $strcmp</description>
+          <long-description></long-description>
+          <tag name="param" line="406" description="&lt;p&gt;number or string to compare, left hand side&lt;/p&gt;" type="mixed" variable="$numStr1">
+            <type>mixed</type>
+          </tag>
+          <tag name="param" line="406" description="&lt;p&gt;number or string to compare, right hand side&lt;/p&gt;" type="mixed" variable="$numStr2">
+            <type>mixed</type>
+          </tag>
+          <tag name="return" line="406" description="true $numStr1 &lt; $numStr2, false otherwise" type="boolean">
+            <type>boolean</type>
+          </tag>
+          <tag name="see" line="406" description="" link="\IacComparator::strcmp()"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$numStr1</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$numStr2</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="423" package="iac\util">
+        <name>le</name>
+        <full_name>\IacComparator::le()</full_name>
+        <docblock line="423">
+          <description>IacComparator::le()
+Less or equal than
+If both parameters are numbers considers $decimals
+If either parameter is string uses $strcmp</description>
+          <long-description></long-description>
+          <tag name="param" line="423" description="&lt;p&gt;number or string to compare, left hand side&lt;/p&gt;" type="mixed" variable="$numStr1">
+            <type>mixed</type>
+          </tag>
+          <tag name="param" line="423" description="&lt;p&gt;number or string to compare, right hand side&lt;/p&gt;" type="mixed" variable="$numStr2">
+            <type>mixed</type>
+          </tag>
+          <tag name="return" line="423" description="true $numStr1 &lt;= $numStr2, false otherwise" type="boolean">
+            <type>boolean</type>
+          </tag>
+          <tag name="see" line="423" description="" link="\IacComparator::strcmp()"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$numStr1</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$numStr2</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="434" package="iac\util">
+        <name>eqArray</name>
+        <full_name>\IacComparator::eqArray()</full_name>
+        <docblock line="434">
+          <description>IacComparator::eqArray()</description>
+          <long-description></long-description>
+          <tag name="param" line="434" description="" type="array" variable="$array1">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="434" description="" type="array" variable="$array2">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="434" description="" type=""/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$array1</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$array2</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="449" package="iac\util">
+        <name>eqArrayIdentical</name>
+        <full_name>\IacComparator::eqArrayIdentical()</full_name>
+        <docblock line="449">
+          <description>IacComparator::eqArrayIdentical()</description>
+          <long-description></long-description>
+          <tag name="param" line="449" description="" type="array" variable="$array1">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="449" description="" type="array" variable="$array2">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="449" description="" type=""/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$array1</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$array2</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="" line="466" package="iac\util">
+        <name>arrays_have_same_keys</name>
+        <full_name>\IacComparator::arrays_have_same_keys()</full_name>
+        <docblock line="466">
+          <description>IacComparator::arrays_have_same_keys()
+Determine if 2 arrays have the same keys</description>
+          <long-description></long-description>
+          <tag name="param" line="466" description="" type="array" variable="$array1">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="466" description="" type="array" variable="$array2">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="466" description="&lt;p&gt;true only first level, false recursevly&lt;/p&gt;" type="boolean" variable="$firstLevelOnly">
+            <type>boolean</type>
+          </tag>
+          <tag name="return" line="466" description="true the have the same keys, false have different keys" type="boolean">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$array1</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$array2</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$firstLevelOnly</name>
+          <default>false</default>
+          <type>boolean</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="" line="493" package="iac\util">
+        <name>arrays_identical_keys</name>
+        <full_name>\IacComparator::arrays_identical_keys()</full_name>
+        <docblock line="493">
+          <description>IacComparator::arrays_identical_keys()
+Determine if 2 arrays have the same keys, in the same position</description>
+          <long-description></long-description>
+          <tag name="param" line="493" description="" type="array" variable="$array1">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="493" description="" type="array" variable="$array2">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="493" description="" type="boolean" variable="$firstLevelOnly">
+            <type>boolean</type>
+          </tag>
+          <tag name="return" line="493" description="true have same keys in same position, false otherwise" type="boolean">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$array1</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$array2</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$firstLevelOnly</name>
+          <default>false</default>
+          <type>boolean</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="" line="533" package="iac\util">
+        <name>arrayEqual</name>
+        <full_name>\IacComparator::arrayEqual()</full_name>
+        <docblock line="533">
+          <description>IacComparator::arrayEqual()
+Determine if arrays are equal
+ arrays must have same keys and values in any order</description>
+          <long-description></long-description>
+          <tag name="param" line="533" description="" type="array" variable="$array1">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="533" description="" type="array" variable="$array2">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="533" description="true if equal keys in any order, false if different" type="boolean">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$array1</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$array2</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="" line="556" package="iac\util">
+        <name>arrayIdentical</name>
+        <full_name>\IacComparator::arrayIdentical()</full_name>
+        <docblock line="556">
+          <description>IacComparator::arrayIdentical()
+Determine if arrays are identical
+ arrays must have same keys and values in exactly the same order</description>
+          <long-description></long-description>
+          <tag name="param" line="556" description="" type="array" variable="$array1">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="556" description="" type="array" variable="$array2">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="556" description="true if equal and keys in the same position, false if different" type="boolean">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$array1</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$array2</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+      </method>
+    </class>
+    <source>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</source>
+  </file>
+  <package name="global" full_name="global"/>
+  <package name="iac" full_name="iac">
+    <package name="util" full_name="iac\util"/>
+  </package>
+  <namespace name="global" full_name="global"/>
+  <deprecated count="0"/>
+</project>

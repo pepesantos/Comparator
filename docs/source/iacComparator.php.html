@@ -1,0 +1,604 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/**
+ * IacComparator
+ * Compare 2 variables:
+ *
+ *  strings: case/accent [in]sensitive.
+ *  numbers; within $decimals: eq ==, gt &gt;, ge &gt;=, lt &lt;, le &lt;=
+ *    Note: number vs string treats both as string
+ *  arrays: same keys, same key=&gt;values, same key=&gt;values in same position
+ *  object: ==
+ *
+ * Multithreading each thread should use its own instance
+ *
+ * @package iac\util
+ * @author Raul Jose Santos Beranrd
+ * @copyright 2015
+ * @version 1.0
+ *
+ */
+class IacComparator {
+
+    /**
+     * $decimals
+     * Number of decimals to use in numeric comparisons, default 2
+     *
+     * @var int $decimals default 2
+     *
+     * @see decimalsSetup()
+     */
+    protected $decimals;
+
+    /**
+     * $decimals_max
+     * Decimals
+     *
+     * @var float $decimals default 0.99
+     *
+     * @see decimalsSetup()
+     */
+    protected $decimals_max;
+
+    /**
+     * $haveBcMath
+     * bcMath installed?
+     *
+     * @var bool haveBcMath true bcMath is installed, else false
+     *
+     */
+    protected $haveBcMath;
+
+    /**
+     * $naturalSortingStrings
+     * Compare using natural order
+     *
+     * @var bool $naturalSortingStrings true, default, comparse using strnatcmp, false, compares using stcmp
+     */
+    public $naturalSortingStrings;
+
+    /**
+     * $caseSesitiveStrings
+     * Compare case Sesitive or case sensitive, default false
+     *
+     * @var bool $caseSesitiveStrings true comparse using case Sesitive, false, default, case sensitive
+     */
+    public $caseSesitiveStrings;
+
+    /**
+     * $accentSesitiveStrings
+     * Compare accent Sesitive or accent sensitive, default false
+     *
+     * @var bool $accentSesitiveStrings true comparse using accent Sesitive, false, default, accent sensitive
+     */
+    public $accentSesitiveStrings;
+
+    /**
+     * $accented_chars
+     * accented chars to substitute
+     *
+     * @var array $accented_chars accented chars to substitute
+     *
+     * @see unaccent()
+     */
+    protected $accented_chars;
+
+    /**
+     * $unaccented_chars
+     * accented chars to substitute with
+     *
+     * @var array $unaccented_chars accented chars to substitute with
+     *
+     * @see unaccent()
+     */
+    protected $unaccented_chars;
+
+    /**
+     * $arraySamePosition
+     * Compare case Sesitive or case sensitive, default false
+     *
+     * @var bool $arraySamePosition true order of keys in the array counts, false, default, key must exists in any order
+     */
+    public $arraySamePosition = false;
+
+    /**
+     * IacComparator::__construct()
+     *
+     * @param integer $decimals number of decimals to consider when comparing numbers, default 2
+     * @param bool $caseSesitiveStrings compare strings considering case, default false
+     * @param bool $accentSesitiveStrings compare strings considering accents, default false
+     * @param bool $naturalSortingStrings compare strings considering natural order strnatcmp, default true
+     * @param bool $arraySamePosition when comparing arrays consider key position true, or just key exists false. default false
+     * @return void
+     */
+    public function __construct($decimals = 2,
+                        $caseSesitiveStrings = false, $accentSesitiveStrings = false, $naturalSortingStrings = true,
+                        $arraySamePosition = false
+    ) {
+        $this-&gt;decimals_set($decimals);
+        $this-&gt;haveBcMath = function_exists('bccomp');
+        $this-&gt;caseSesitiveStrings = $caseSesitiveStrings;
+        $this-&gt;accentSesitiveStrings = $accentSesitiveStrings;
+        $this-&gt;naturalSortingStrings = $naturalSortingStrings;
+        $this-&gt;arraySamePosition = $arraySamePosition;
+        $this-&gt;unaccentSetUp();
+    }
+
+    /**
+     * IacComparator::decimals_set()
+     * Decimals to use in numeric comparisons setter
+     *
+     * @param int $decimals number of decimals to use in numeric comparisons
+     * @return void
+     */
+    public function decimals_set($decimals) {
+        $this-&gt;decimals = $decimals;
+        $this-&gt;decimals_max = (float)('0.'.str_repeat('9',$decimals));
+    }
+
+    /**
+     * IacComparator::useBcMath()
+     * (Un)forces use of bccomp
+     *
+     * @param bool $use
+     * @return void
+     */
+    public function useBcMath($use) {
+        $this-&gt;haveBcMath = $use;
+    }
+
+    /**
+     * IacComparator::eq()
+     * Compares 2 variables, arrays must have same keys and values in any order.
+     *  numbers uses considers $decimals
+     *  strings use $caseSesitiveStrings, $accentSesitiveStrings and $naturalSortingStrings
+     *  arrays use  $arraySamePosition
+     *
+     * @param mixed $obj1
+     * @param mixed $obj2
+     * @return bool true variables are equal, false are different
+     *
+     * @see $caseSesitiveStrings
+     * @see $accentSesitiveStrings
+     * @see $naturalSortingStrings
+     * @see $arraySamePosition
+     */
+    public function eq($obj1, $obj2) {
+        if(is_array($obj1) &amp;&amp; is_array($obj2))
+            if($this-&gt;arraySamePosition)
+                return  $this-&gt;arrayIdentical($obj1, $obj2);
+            else
+                return  $this-&gt;arrayEqual($obj1, $obj2);
+
+        if(is_numeric($obj1) &amp;&amp; is_numeric($obj2)) {
+            if($this-&gt;haveBcMath)
+                return $this-&gt;bccomp($obj1,$obj2) === 0;
+            return abs($obj1 - $obj2) &lt;= $this-&gt;decimals_max;
+        }
+
+        if(is_object($obj1) || is_object($obj2))
+            return $obj1 == $obj2;
+
+        return $this-&gt;strcmp($obj1,$obj2) === 0;
+    }
+
+    /**
+     * unaccent()
+     *
+     * @param string $str
+     * @param bool $utf8
+     * @param bool $test_else on true force else for testing, internal
+     * @return string with without accents
+     * @see http://www.evaisse.net/2008/php-translit-remove-accent-unaccent-21001
+     */
+    function unaccent($str, $utf8 = true,$test_else=true) {
+        $str = (string) $str;
+        if(is_null($utf8)) {
+            if(function_exists('mb_detect_encoding') &amp;&amp; $test_else) {
+                $utf8 = (strtolower(mb_detect_encoding($str)) == 'utf-8');
+            } else {
+                $length = strlen($str);
+                $utf8 = true;
+
+                for ($i = 0; $i &lt; $length; $i++) {
+                    $c = ord($str[$i]);
+                    if ($c &lt; 0x80) $n = 0; // 0bbbbbbb
+                    elseif (($c &amp; 0xE0) == 0xC0) $n = 1; // 110bbbbb
+                    elseif (($c &amp; 0xF0) == 0xE0) $n = 2; // 1110bbbb
+                    elseif (($c &amp; 0xF8) == 0xF0) $n = 3; // 11110bbb
+                    elseif (($c &amp; 0xFC) == 0xF8) $n = 4; // 111110bb
+                    elseif (($c &amp; 0xFE) == 0xFC) $n = 5; // 1111110b
+                    else return false; // Does not match any model
+                    for ($j = 0; $j &lt; $n; $j++) { // n bytes matching 10bbbbbb follow ?
+                        if ((++$i == $length) || ((ord($str[$i]) &amp; 0xC0) != 0x80)) {
+                            $utf8 = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        if(!$utf8)
+            $str = utf8_encode($str);
+        return str_replace($this-&gt;accented_chars, $this-&gt;unaccented_chars, $str);
+    }
+
+
+    /**
+     * IacComparator::unaccentSetUp()
+     * Sets up $unaccented_chars &amp; $accetnted_chars for substitution in unaccent, called by constructor
+     *
+     * @return void
+     *
+     */
+    protected function unaccentSetUp() {
+        $transliteration = array(
+            '&aacute;'=&gt;'a','&eacute;'=&gt;'e','&iacute;'=&gt;'i','&oacute;'=&gt;'o','&uacute;'=&gt;'u','&yacute;'=&gt;'y',
+            '&agrave;'=&gt;'a','&egrave;'=&gt;'e','&igrave;'=&gt;'i','&ograve;'=&gt;'o','&ugrave;'=&gt;'u',
+            '&auml;'=&gt;'a','&euml;'=&gt;'e','&iuml;'=&gt;'i','&ouml;'=&gt;'o','&uuml;'=&gt;'u','&yuml;'=&gt;'y',
+            '&acirc;'=&gt;'a','&ecirc;'=&gt;'e','&icirc;'=&gt;'i','&ocirc;'=&gt;'o','&ucirc;'=&gt;'u',
+
+            '&Aacute;'=&gt;'A','&Eacute;'=&gt;'E','&Iacute;'=&gt;'I','&Oacute;'=&gt;'O','&Uacute;'=&gt;'U','&Yacute;'=&gt;'Y',
+            '&Agrave;'=&gt;'A','&Egrave;'=&gt;'E','&Igrave;'=&gt;'I','&Ograve;'=&gt;'O','&Ugrave;'=&gt;'U',
+            '&Auml;'=&gt;'A','&Euml;'=&gt;'E','&Iuml;'=&gt;'I','&Ouml;'=&gt;'O','&Uuml;'=&gt;'U',
+            '&Acirc;'=&gt;'A','&Ecirc;'=&gt;'E','&Icirc;'=&gt;'I','&Ocirc;'=&gt;'O','&Ucirc;'=&gt;'U','Ϋ' =&gt; 'Y',
+
+            '&ntilde;'=&gt;'n','&Ntilde;'=&gt;'N',
+            '&szlig;' =&gt; 'ss','ẞ' =&gt; 'SS',
+            '&ccedil;' =&gt; 'c', '&Ccedil;' =&gt;'C'
+            ,'&Oslash;' =&gt; 'O',
+            'ş' =&gt; 's','Ș' =&gt; 'S',
+            'Ț' =&gt; 'T',
+            'ğ' =&gt; 'g', 'Ğ' =&gt; 'G',
+        );
+        $this-&gt;accented_chars = array_keys($transliteration);
+        $this-&gt;unaccented_chars = array_values($transliteration);
+    }
+
+    /**
+     * IacComparator::cmp()
+     * Returns -1: numStr1 &lt; numStr2, 0: numStr1 == numStr2, 1: numStr1 &gt; numStr2, considering:
+     *
+     * If both parameters are numeric compares considering $decimals
+     * If either parameter is string uses applies case/accent snesitive settings
+     *
+     * @param mixed $numStr1 string or number
+     * @param mixed $numStr2 string or number
+     * @return int &lt; 0: numStr1 &lt; numStr2, 0: numStr1 == numStr2, &gt;0: numStr1 &gt; numStr2
+     *
+     * @see strcmp()
+     *
+     */
+    public function cmp($numStr1,$numStr2) {
+        if(!is_numeric($numStr1) || !is_numeric($numStr2))
+            return $this-&gt;strcmp($numStr1,$numStr2);
+
+        if($this-&gt;haveBcMath)
+            return $this-&gt;bccomp($numStr1,$numStr2);
+
+       $numStr1 = round($numStr1,$this-&gt;decimals);
+       $numStr2 = round($numStr2,$this-&gt;decimals);
+       if($numStr1 === $numStr2)
+            return 0;
+       return $numStr1 &lt; $numStr2 ? -1 : 1;
+    }
+
+    /**
+     * IacComparator::bccomp()
+     * bccomp call protecting -0 , using $this-&gt;decmials as scale
+     *
+     * @param float $num1
+     * @param float $num2
+     * @return &lt; 1 $num1 &lt; $num2, 0 $num1 == $num2, 1 $num1 &gt; $num2
+     *
+     * @see decimals_set
+     */
+    public function bccomp($num1,$num2) {
+        if(substr($num1,0,3)==='-0.')
+            $num1 = substr($num1,1);
+        if(substr($num2,0,3)==='-0.')
+            $num2 = substr($num2,1);
+        return bccomp($num1,$num2,$this-&gt;decimals);
+    }
+
+    /**
+     * IacComparator::strcmp()
+     * strnatcmp function considering case/accent [in]sensitive and natural order or normal order
+     *
+     * @param string $str1
+     * @param string $str2
+     * @return int &lt; 0: str1 &lt; str2, 0: str1 == str2, &gt;0: str1 &gt; str2
+     *
+     * @see $caseSesitiveStrings
+     * @see $accentSesitiveStrings
+     * @see $naturalSortingStrings
+     */
+    public function strcmp($str1,$str2) {
+        if($this-&gt;naturalSortingStrings) {
+            // use natural order
+            if($this-&gt;accentSesitiveStrings)
+                if($this-&gt;caseSesitiveStrings)
+                    return strnatcasecmp($this-&gt;unaccent($str1), $this-&gt;unaccent($str2));
+                else
+                    return strnatcmp($this-&gt;unaccent($str1), $this-&gt;unaccent($str2));
+            // accent Sesitive
+            if($this-&gt;caseSesitiveStrings)
+                return strnatcasecmp($str1, $str2);
+            return strnatcmp($str1, $str2);
+        }
+
+        // strcmp, normal order
+        if($this-&gt;accentSesitiveStrings)
+            if($this-&gt;caseSesitiveStrings)
+                return strcasecmp($this-&gt;unaccent($str1), $this-&gt;unaccent($str2));
+            else
+                return strcmp($this-&gt;unaccent($str1), $this-&gt;unaccent($str2));
+        if($this-&gt;caseSesitiveStrings)
+            return strcasecmp($str1, $str2);
+        return strcmp($str1, $str2);
+    }
+
+    /**
+     * IacComparator::gt()
+     * Greater than
+     * If both parameters are numbers considers $decimals
+     * If either parameter is string uses $strcmp
+     *
+     * @param mixed $numStr1 number or string to compare, left hand side
+     * @param mixed $numStr2 number or string to compare, right hand side
+     * @return bool true $numStr1 &gt; $numStr2, false otherwise
+     *
+     *
+     * @see strcmp()
+     */
+    public function gt($numStr1, $numStr2) {
+        return $this-&gt;cmp($numStr1, $numStr2) &gt; 0;
+    }
+
+    /**
+     * IacComparator::ge()
+     * Greater or equal than
+     * If both parameters are numbers considers $decimals
+     * If either parameter is string uses $strcmp
+     *
+     * @param mixed $numStr1 number or string to compare, left hand side
+     * @param mixed $numStr2 number or string to compare, right hand side
+     * @return bool true $numStr1 &gt;= $numStr2, false otherwise
+     *
+     *
+     * @see strcmp()
+     */
+    public function ge($numStr1, $numStr2) {
+        return $this-&gt;cmp($numStr1, $numStr2) &gt;= 0;
+    }
+
+    /**
+     * IacComparator::lt()
+     * Less than
+     * If both parameters are numbers considers $decimals
+     * If either parameter is string uses $strcmp
+     *
+     * @param mixed $numStr1 number or string to compare, left hand side
+     * @param mixed $numStr2 number or string to compare, right hand side
+     * @return bool true $numStr1 &lt; $numStr2, false otherwise
+     *
+     *
+     * @see strcmp()
+     */
+    public function lt($numStr1, $numStr2) {
+        return $this-&gt;cmp($numStr1, $numStr2) &lt; 0;
+    }
+
+    /**
+     * IacComparator::le()
+     * Less or equal than
+     * If both parameters are numbers considers $decimals
+     * If either parameter is string uses $strcmp
+     *
+     * @param mixed $numStr1 number or string to compare, left hand side
+     * @param mixed $numStr2 number or string to compare, right hand side
+     * @return bool true $numStr1 &lt;= $numStr2, false otherwise
+     *
+     *
+     * @see strcmp()
+     */
+    public function le($numStr1, $numStr2) {
+        return $this-&gt;cmp($numStr1, $numStr2) &lt;= 0;
+    }
+
+    /**
+     * IacComparator::eqArray()
+     *
+     * @param array $array1
+     * @param array $array2
+     * @return
+     */
+    public function eqArray($array1,$array2) {
+        $arraySamePosition = $this-&gt;arraySamePosition;
+        $this-&gt;arraySamePosition = false;
+        $ret = $this-&gt;arrayEqual($array1,$array2);
+        $this-&gt;arraySamePosition = $arraySamePosition;
+        return $ret;
+    }
+
+    /**
+     * IacComparator::eqArrayIdentical()
+     *
+     * @param array $array1
+     * @param array $array2
+     * @return
+     */
+    public function eqArrayIdentical($array1,$array2) {
+        $arraySamePosition = $this-&gt;arraySamePosition;
+        $this-&gt;arraySamePosition = true;
+        $ret = $this-&gt;arrayIdentical($array1,$array2);
+        $this-&gt;arraySamePosition = $arraySamePosition;
+        return $ret;
+    }
+
+    /**
+     * IacComparator::arrays_have_same_keys()
+     * Determine if 2 arrays have the same keys
+     *
+     * @param array $array1
+     * @param array $array2
+     * @param bool $firstLevelOnly true only first level, false recursevly
+     * @return bool true the have the same keys, false have different keys
+     */
+    public function arrays_have_same_keys($array1, $array2,$firstLevelOnly=false) {
+        if($this-&gt;arraySamePosition)
+            return $this-&gt;arrays_identical_keys($array1, $array2,$firstLevelOnly);
+
+        if(!is_array($array1) || !is_array($array2))
+            return false;
+        $diferentKeys = array_merge(array_diff_key($array1, $array2), array_diff_key($array2, $array1));
+        if(!empty( $diferentKeys ))
+            return false;
+
+        foreach($array1 as $key=&gt;$value) {
+            if(is_array($value))
+                if(is_array($array2[$key]))
+                    return $this-&gt;arrays_have_same_keys($value, $array2[$key] );
+        }
+        return true;
+    }
+
+    /**
+     * IacComparator::arrays_identical_keys()
+     * Determine if 2 arrays have the same keys, in the same position
+     *
+     * @param array $array1
+     * @param array $array2
+     * @param bool $firstLevelOnly
+     * @return bool true have same keys in same position, false otherwise
+     */
+    protected function arrays_identical_keys($array1, $array2,$firstLevelOnly=false) {
+        if(!is_array($array1) || !is_array($array2))
+            return false;
+        $diferentKeys = array_merge(array_diff_key($array1, $array2), array_diff_key($array2, $array1));
+        if(!empty( $diferentKeys ))
+            return false;
+
+        reset($array2);
+        $key2 = key($array2);
+        foreach($array1 as $key=&gt;$value) {
+            if($key !== $key2)
+                return false;
+            next($array2);
+            $key2 = key($array2);
+        }
+
+        if($firstLevelOnly)
+            return true;
+
+        foreach($array1 as $key=&gt;$value) {
+            if(is_array($value) &amp;&amp; !is_array($array2[$key]))
+                return false;
+            if(!is_array($value) &amp;&amp; is_array($array2[$key]))
+                return false;
+            if(is_array($value) &amp;&amp; is_array($array2[$key]))
+                if(!$this-&gt;arrays_identical_keys($value, $array2[$key], false) )
+                    return false;
+        }
+        return true;
+    }
+
+    /**
+     * IacComparator::arrayEqual()
+     * Determine if arrays are equal
+     *  arrays must have same keys and values in any order
+     *
+     * @param array $array1
+     * @param array $array2
+     * @return bool true if equal keys in any order, false if different
+     */
+    protected function arrayEqual($array1, $array2) {
+        if(is_array($array1) &amp;&amp; is_array($array2)) {
+            $diferentKeys = array_merge(array_diff_key($array1, $array2), array_diff_key($array2, $array1));
+            if(!empty( $diferentKeys ))
+                return false;
+        }
+        if((is_array($array1) &amp;&amp; !is_array($array2)) || (is_array($array2) &amp;&amp; !is_array($array1)) )
+            return false;
+        foreach($array1 as $key=&gt;$value)
+            if(!$this-&gt;eq($value, $array2[$key]))
+                return false;
+        return true;
+    }
+
+    /**
+     * IacComparator::arrayIdentical()
+     * Determine if arrays are identical
+     *  arrays must have same keys and values in exactly the same order
+     *
+     * @param array $array1
+     * @param array $array2
+     * @return bool true if equal and keys in the same position, false if different
+     */
+    protected function arrayIdentical($array1, $array2) {
+        if(is_array($array1) &amp;&amp; is_array($array2)) {
+            $diferentKeys = array_merge(array_diff_key($array1, $array2), array_diff_key($array2, $array1));
+            if(!empty( $diferentKeys ))
+                return false;
+        }
+        if((is_array($array1) &amp;&amp; !is_array($array2)) || (is_array($array2) &amp;&amp; !is_array($array1)) )
+            return false;
+        $current2 = reset($array2);
+        foreach($array1 as $key=&gt;$value) {
+            if($key != key($array2))
+                return false;
+            if(!$this-&gt;eq($value, $current2 ))
+                return false;
+            $current2 = next($array2);
+        }
+        return true;
+    }
+
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>
